@@ -22,4 +22,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
     }
+
+    //     public function run(): void
+    // {
+    //     $this->call([
+    //         RoleSeeder::class,      // 1. Crear roles primero
+    //         DocenteSeeder::class,   // 2. Crear docentes (con usuarios)
+    //         CursoSeeder::class,     // 3. Crear cursos asignados a docentes
+    //     ]);
+    // }
 }
