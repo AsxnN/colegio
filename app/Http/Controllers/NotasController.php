@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Nota;
 use App\Models\Estudiante;
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotasController extends Controller
 {
@@ -43,6 +45,37 @@ class NotasController extends Controller
         return view('colegio.notas.index', compact('notas', 'estudiantes', 'cursos'));
     }
 
+    public function indexEstudiante(Request $request)
+    {
+        $query = Nota::with(['curso']);
+
+        // Filtrar por estudiante autenticado
+        if (Auth::user()->role->nombre === 'Estudiante') {
+            $query->where('estudiante_id', Auth::user()->id);
+        }
+
+        // Filtro por curso (opcional)
+        if ($request->filled('curso_id')) {
+            $query->where('curso_id', $request->curso_id);
+        }
+
+        // Filtro por estado (opcional)
+        if ($request->filled('estado')) {
+            if ($request->estado == 'aprobado') {
+                $query->where('promedio_final', '>=', 14);
+            } elseif ($request->estado == 'desaprobado') {
+                $query->where('promedio_final', '<', 14)->whereNotNull('promedio_final');
+            } elseif ($request->estado == 'sin_calificar') {
+                $query->whereNull('promedio_final');
+            }
+        }
+
+        $notas = $query->latest()->paginate(15);
+        $cursos = Curso::all();
+
+        return view('colegio.estudiante.notas', compact('notas', 'cursos'));
+    }
+
     /**
      * Mostrar formulario de creación
      */
@@ -50,7 +83,7 @@ class NotasController extends Controller
     {
         $estudiantes = Estudiante::with('usuario')->get();
         $cursos = Curso::all();
-        
+
         return view('colegio.notas.create', compact('estudiantes', 'cursos'));
     }
 
@@ -83,7 +116,7 @@ class NotasController extends Controller
     public function show(Nota $nota)
     {
         $nota->load(['estudiante.usuario', 'curso.docente.usuario']);
-        
+
         return view('colegio.notas.show', compact('nota'));
     }
 
@@ -94,7 +127,7 @@ class NotasController extends Controller
     {
         $estudiantes = Estudiante::with('usuario')->get();
         $cursos = Curso::all();
-        
+
         return view('colegio.notas.edit', compact('nota', 'estudiantes', 'cursos'));
     }
 
@@ -137,7 +170,7 @@ class NotasController extends Controller
     {
         $estudiante = Estudiante::with('usuario')->findOrFail($estudianteId);
         $notas = Nota::with('curso')->where('estudiante_id', $estudianteId)->get();
-        
+
         return view('colegio.notas.por-estudiante', compact('estudiante', 'notas'));
     }
 
@@ -148,7 +181,7 @@ class NotasController extends Controller
     {
         $curso = Curso::with('docente.usuario')->findOrFail($cursoId);
         $notas = Nota::with('estudiante.usuario')->where('curso_id', $cursoId)->get();
-        
+
         return view('colegio.notas.por-curso', compact('curso', 'notas'));
     }
 }

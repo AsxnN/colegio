@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Seccion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class EstudiantesController extends Controller
 {
@@ -16,6 +18,14 @@ class EstudiantesController extends Controller
      */
     public function perfil($id)
     {
+        $user = Auth::user();
+
+    Log::info('Accediendo al perfil del estudiante.', [
+        'user_id' => $user->id,
+        'user_name' => $user->name,
+        'user_role' => $user->role->nombre ?? 'Sin rol',
+        'requested_id' => $id,
+    ]);
         // Buscar el estudiante con sus relaciones
         $estudiante = Estudiante::with(['usuario', 'seccion'])->findOrFail($id);
 

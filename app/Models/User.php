@@ -51,7 +51,26 @@ class User extends Authenticatable
     // Relaciones
     public function rol()
     {
-        return $this->belongsTo(Role::class, 'rol_id');
+        return $this->belongsTo(Role::class,  'rol_id');
+    }
+
+    /** Helper: compara por slug o id */
+    public function hasRole($role): bool
+    {
+        // acepta 'administrador' | 'docente' | 'estudiante' o 1/2/3
+        $map = ['administrador' => 1, 'docente' => 2, 'estudiante' => 3];
+
+        if (is_numeric($role)) {
+            return (int)$this->id_rol === (int)$role;
+        }
+
+        $role = strtolower($role);
+        if (isset($map[$role])) {
+            return (int)$this->id_rol === $map[$role];
+        }
+
+        // también soporta comparar por nombre_rol desde la relación
+        return strtolower(optional($this->rol)->nombre_rol) === $role;
     }
 
     public function administrador()
