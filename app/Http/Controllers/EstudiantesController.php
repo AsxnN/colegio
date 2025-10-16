@@ -14,10 +14,17 @@ class EstudiantesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function perfil($id)
+    {
+        // Buscar el estudiante con sus relaciones
+        $estudiante = Estudiante::with(['usuario', 'seccion'])->findOrFail($id);
+
+        // Retornar la vista con los datos del estudiante
+        return view('colegio.estudiante.perfil', compact('estudiante'));
+    }
     public function index(Request $request)
     {
-        $query = Estudiante::with(['usuario.rol', 'seccion']);
-
+        $query = Estudiante::with(['usuario', 'seccion'])->paginate(20); // 20 estudiantes por página
         // Filtros
         if ($request->filled('seccion_id')) {
             $query->where('seccion_id', $request->seccion_id);
@@ -36,7 +43,7 @@ class EstudiantesController extends Controller
         }
 
         $estudiantes = $query->paginate(10);
-        
+
         // Para los filtros en la vista - Sin usar scope activas()
         $secciones = Seccion::orderBy('grado')->orderBy('nombre')->get();
 
@@ -194,7 +201,7 @@ class EstudiantesController extends Controller
     {
         // Eliminar el estudiante y el usuario asociado
         $estudiante->usuario->delete(); // Esto también eliminará el estudiante por CASCADE
-        
+
         return redirect()->route('estudiantes.index')->with('success', 'Estudiante eliminado exitosamente.');
     }
 
@@ -206,11 +213,11 @@ class EstudiantesController extends Controller
         $estadisticas = [
             'total_estudiantes' => Estudiante::count(),
             'por_nivel_socioeconomico' => Estudiante::selectRaw('nivel_socioeconomico, count(*) as total')
-                                                    ->groupBy('nivel_socioeconomico')
-                                                    ->pluck('total', 'nivel_socioeconomico'),
+                ->groupBy('nivel_socioeconomico')
+                ->pluck('total', 'nivel_socioeconomico'),
             'por_motivacion' => Estudiante::selectRaw('motivacion, count(*) as total')
-                                         ->groupBy('motivacion')
-                                         ->pluck('total', 'motivacion'),
+                ->groupBy('motivacion')
+                ->pluck('total', 'motivacion'),
             'con_recursos_completos' => Estudiante::conRecursosCompletos()->count(),
             'con_dificultades' => Estudiante::conDificultadesSocioeconomicas()->count(),
             'problemas_familiares' => Estudiante::conProblemasFamiliares()->count(),

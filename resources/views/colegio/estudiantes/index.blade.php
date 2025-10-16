@@ -20,9 +20,9 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6">
                     @if (session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('success') }}
-                        </div>
+                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
                     @endif
 
                     <!-- Filtros -->
@@ -33,9 +33,9 @@
                                 <select name="seccion_id" id="seccion_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                                     <option value="">Todas las secciones</option>
                                     @foreach($secciones as $seccion)
-                                        <option value="{{ $seccion->id }}" {{ request('seccion_id') == $seccion->id ? 'selected' : '' }}>
-                                            {{ $seccion->nombre_completo }}
-                                        </option>
+                                    <option value="{{ $seccion->id }}" {{ request('seccion_id') == $seccion->id ? 'selected' : '' }}>
+                                        {{ $seccion->nombre_completo }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -107,13 +107,13 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         @if($estudiante->seccion)
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                                {{ $estudiante->seccion->nombre_completo }}
-                                            </span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            {{ $estudiante->seccion->nombre_completo }}
+                                        </span>
                                         @else
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                                                Sin sección
-                                            </span>
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            Sin sección
+                                        </span>
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -143,7 +143,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex space-x-2">
-                                            <a href="{{ route('estudiantes.show', $estudiante) }}" class="text-blue-600 hover:text-blue-900">Ver</a>
+                                            <a href="{{ route('estudiante.perfil', $estudiante->id) }}" class="text-blue-600 hover:text-blue-900">Perfil</a>
                                             <a href="{{ route('estudiantes.edit', $estudiante) }}" class="text-indigo-600 hover:text-indigo-900">Editar</a>
                                             <form action="{{ route('estudiantes.destroy', $estudiante) }}" method="POST" class="inline">
                                                 @csrf
