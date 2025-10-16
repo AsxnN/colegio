@@ -55,10 +55,22 @@ class Estudiante extends Model
         return $this->hasMany(Calificacion::class, 'estudiante_id');
     }
 
+    // Relación con notas (AGREGADA)
+    public function notas()
+    {
+        return $this->hasMany(Nota::class, 'estudiante_id');
+    }
+
     // Relación con asistencias
     public function asistencias()
     {
         return $this->hasMany(Asistencia::class, 'estudiante_id');
+    }
+
+    // Relación con predicciones (AGREGADA)
+    public function predicciones()
+    {
+        return $this->hasMany(PrediccionRendimiento::class, 'estudiante_id');
     }
 
     // Accessors

@@ -44,6 +44,23 @@
                             {{ __('Mi Progreso') }}
                         </x-nav-link>
                     @endif
+
+                    <x-nav-link href="{{ route('cursos.index') }}" :active="request()->routeIs('cursos.*')">
+                        {{ __('Cursos') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('notas.index') }}" :active="request()->routeIs('notas.*')">
+                        {{ __('Notas') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('asistencias.index') }}" :active="request()->routeIs('asistencias.*')">
+                        {{ __('Asistencias') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('recursos.index') }}" :active="request()->routeIs('recursos.*')">
+                        {{ __('Recursos') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('predicciones.index') }}" :active="request()->routeIs('predicciones.*')">
+                        {{ __('Predicciones') }}
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -12,6 +12,8 @@ use App\Http\Controllers\CursosController;
 use App\Http\Controllers\NotasController;
 use App\Http\Controllers\AsistenciasController;
 use App\Http\Controllers\RecursosEducativosController;
+use App\Http\Controllers\PrediccionesController;
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', fn () => view('welcome'));
 
@@ -80,9 +82,89 @@ Route::middleware([
     Route::get('/notas/estudiante/{estudiante}', [NotasController::class, 'porEstudiante'])->name('notas.por-estudiante')->middleware('role:1,2,3');
     Route::get('/notas/curso/{curso}',           [NotasController::class, 'porCurso'])->name('notas.por-curso')->middleware('role:1,2');
 
-    Route::get('/asistencias',                   [AsistenciasController::class, 'index'])->name('asistencias.index')->middleware('role:1,2');
-    Route::get('/asistencias/registrar',         [AsistenciasController::class, 'registrar'])->name('asistencias.registrar')->middleware('role:1,2');
-    Route::post('/asistencias/guardar-masivo',   [AsistenciasController::class, 'guardarMasivo'])->name('asistencias.guardar-masivo')->middleware('role:1,2');
-    Route::resource('recursos', RecursosEducativosController::class)->names('recursos')->middleware('role:1,2');
-    Route::get('/recursos/curso/{curso}', [RecursosEducativosController::class, 'porCurso'])->name('recursos.por-curso')->middleware('role:1,2,3');
+    // Rutas para el módulo de recursos educativos
+    Route::resource('recursos', RecursosEducativosController::class)->names('recursos');
+    Route::get('/recursos/curso/{curso}', [RecursosEducativosController::class, 'porCurso'])->name('recursos.por-curso');
+
+    // Rutas para el módulo de predicciones
+    Route::prefix('predicciones')->name('predicciones.')->group(function () {
+        Route::get('/', [PrediccionesController::class, 'index'])->name('index');
+        Route::get('/seleccionar', [PrediccionesController::class, 'seleccionar'])->name('seleccionar');
+        Route::post('/generar/{estudiante}', [PrediccionesController::class, 'generar'])->name('generar');
+        Route::post('/generar-todas', [PrediccionesController::class, 'generarTodas'])->name('generar-todas');
+        Route::get('/{id}', [PrediccionesController::class, 'show'])->name('show');
+        Route::delete('/{id}', [PrediccionesController::class, 'destroy'])->name('destroy');
+    });
+
+    
+    //-----------------------------------------------------------END ADMINISTRADOR-----------------------------------------------------------------------//
+
+    //-----------------------------------------------------------START DOCENTE-----------------------------------------------------------------------//
+    //-----------------------------------------------------------END DOCENTE-----------------------------------------------------------------------//
+
+    //-----------------------------------------------------------START ESTUDIANTE-----------------------------------------------------------------------//
+    //-----------------------------------------------------------END ESTUDIANTE-----------------------------------------------------------------------//
+
+
+
+    // Ruta para listar modelos disponibles de Gemini
+    Route::get('/gemini-models', function() {
+        $apiKey = config('services.gemini.api_key');
+        $baseUrl = config('services.gemini.base_url');
+        
+        try {
+            $response = Http::timeout(10)
+                ->get("{$baseUrl}/models?key={$apiKey}");
+            
+            if ($response->successful()) {
+                $data = $response->json();
+                
+                // Filtrar solo modelos que soporten generateContent
+                $modelos = collect($data['models'] ?? [])->filter(function($model) {
+                    return in_array('generateContent', $model['supportedGenerationMethods'] ?? []);
+                })->map(function($model) {
+                    return [
+                        'name' => $model['name'],
+                        'displayName' => $model['displayName'] ?? 'N/A',
+                        'description' => $model['description'] ?? 'N/A',
+                    ];
+                })->values();
+                
+                return response()->json([
+                    'success' => true,
+                    'total' => $modelos->count(),
+                    'modelos' => $modelos
+                ], 200, [], JSON_PRETTY_PRINT);
+            }
+            
+            return response()->json([
+                'success' => false,
+                'error' => $response->body()
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    });
+
+    // Ruta de prueba para Gemini
+    Route::get('/test-gemini', function() {
+        $service = new \App\Services\GeminiService();
+        
+        $config = [
+            'api_key_configured' => $service->verificarConfiguracion(),
+            'api_key_length' => strlen(config('services.gemini.api_key')),
+            'api_key_preview' => substr(config('services.gemini.api_key'), 0, 10) . '...',
+        ];
+        
+        $testConexion = $service->testConexion();
+        
+        return response()->json([
+            'configuracion' => $config,
+            'test_conexion' => $testConexion,
+        ]);
+    });
 });
