@@ -6,6 +6,9 @@ use App\Http\Controllers\AdministradoresController;
 use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\EstudiantesController;
 use App\Http\Controllers\SeccionesController;
+use App\Http\Controllers\CursosController;
+use App\Http\Controllers\NotasController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -52,4 +55,12 @@ Route::middleware([
         Route::get('/estudiantes/{id}/recomendaciones', [EstudiantesController::class, 'recomendaciones'])->name('estudiante.recomendaciones');
         Route::get('/estudiantes/{id}/recursos', [EstudiantesController::class, 'recursos'])->name('estudiante.recursos');
     });
+
+    // Rutas para el módulo de cursos
+    Route::resource('cursos', CursosController::class);
+
+    // Rutas para el módulo de notas
+    Route::resource('notas', NotasController::class);
+    Route::get('/notas/estudiante/{estudiante}', [NotasController::class, 'porEstudiante'])->name('notas.por-estudiante');
+    Route::get('/notas/curso/{curso}', [NotasController::class, 'porCurso'])->name('notas.por-curso');
 });

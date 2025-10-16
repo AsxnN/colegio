@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Docente;
@@ -13,80 +12,147 @@ class DocenteSeeder extends Seeder
 {
     public function run(): void
     {
-        $docenteRole = Role::where('nombre', 'Docente')->first();
-        
-        if (!$docenteRole) {
-            $this->command->error('El rol "Docente" no existe. Ejecuta primero RoleSeeder.');
-            return;
-        }
-
-        // Crear docentes de ejemplo
         $docentes = [
             [
-                'user' => [
-                    'dni' => '11111111',
-                    'nombres' => 'Ana',
-                    'apellidos' => 'Matemática',
-                    'email' => 'ana.matematica@colegio.com',
-                ],
-                'docente' => [
-                    'especialidad' => 'Matemáticas',
-                    'grado_academico' => 'Licenciado',
-                    'fecha_ingreso' => '2023-01-15',
-                ]
+                'dni' => '12335678',
+                'nombres' => 'Carlos',
+                'apellidos' => 'Mendoza Ríos',
+                'name' => 'Carlos Mendoza Ríos',
+                'email' => 'carlos.mendoza@colegio.edu',
+                'especialidad' => 'Matemáticas',
+                'bio' => 'Licenciado en Matemáticas con 10 años de experiencia en educación secundaria. Especialista en álgebra y geometría.',
             ],
             [
-                'user' => [
-                    'dni' => '22222222',
-                    'nombres' => 'Carlos',
-                    'apellidos' => 'Historia',
-                    'email' => 'carlos.historia@colegio.com',
-                ],
-                'docente' => [
-                    'especialidad' => 'Historia',
-                    'grado_academico' => 'Magíster',
-                    'fecha_ingreso' => '2022-08-20',
-                ]
+                'dni' => '23456789',
+                'nombres' => 'María',
+                'apellidos' => 'González Pérez',
+                'name' => 'María González Pérez',
+                'email' => 'maria.gonzalez@colegio.edu',
+                'especialidad' => 'Comunicación',
+                'bio' => 'Licenciada en Literatura y Lengua Española. Especialista en comprensión lectora y redacción.',
             ],
             [
-                'user' => [
-                    'dni' => '33333333',
-                    'nombres' => 'María',
-                    'apellidos' => 'Ciencias',
-                    'email' => 'maria.ciencias@colegio.com',
-                ],
-                'docente' => [
-                    'especialidad' => 'Ciencias Naturales',
-                    'grado_academico' => 'Doctor',
-                    'fecha_ingreso' => '2021-03-10',
-                ]
+                'dni' => '34567890',
+                'nombres' => 'Roberto',
+                'apellidos' => 'Silva Chang',
+                'name' => 'Roberto Silva Chang',
+                'email' => 'roberto.silva@colegio.edu',
+                'especialidad' => 'Idiomas',
+                'bio' => 'Profesor de inglés certificado con nivel C2. Experiencia en preparación para exámenes internacionales.',
+            ],
+            [
+                'dni' => '45678901',
+                'nombres' => 'José',
+                'apellidos' => 'Ramírez Torres',
+                'name' => 'José Ramírez Torres',
+                'email' => 'jose.ramirez@colegio.edu',
+                'especialidad' => 'Ciencias Naturales',
+                'bio' => 'Biólogo con maestría en educación. Especialista en ciencias naturales y experimentación científica.',
+            ],
+            [
+                'dni' => '56789012',
+                'nombres' => 'Daniel',
+                'apellidos' => 'Herrera Campos',
+                'name' => 'Daniel Herrera Campos',
+                'email' => 'daniel.herrera@colegio.edu',
+                'especialidad' => 'Física',
+                'bio' => 'Físico con doctorado en educación. Especialista en física experimental y mecánica.',
+            ],
+            [
+                'dni' => '67890123',
+                'nombres' => 'Ana',
+                'apellidos' => 'Torres Vega',
+                'name' => 'Ana Torres Vega',
+                'email' => 'ana.torres@colegio.edu',
+                'especialidad' => 'Historia',
+                'bio' => 'Historiadora especializada en historia del Perú y América Latina. Experiencia en investigación histórica.',
+            ],
+            [
+                'dni' => '78901234',
+                'nombres' => 'Carmen',
+                'apellidos' => 'Vega Morales',
+                'name' => 'Carmen Vega Morales',
+                'email' => 'carmen.vega@colegio.edu',
+                'especialidad' => 'Geografía',
+                'bio' => 'Geógrafa con especialización en geografía humana y económica. Experta en cartografía.',
+            ],
+            [
+                'dni' => '89012345',
+                'nombres' => 'Luis',
+                'apellidos' => 'Paredes Díaz',
+                'name' => 'Luis Paredes Díaz',
+                'email' => 'luis.paredes@colegio.edu',
+                'especialidad' => 'Educación Física',
+                'bio' => 'Licenciado en Educación Física. Entrenador deportivo certificado con experiencia en atletismo y fútbol.',
+            ],
+            [
+                'dni' => '90123456',
+                'nombres' => 'Patricia',
+                'apellidos' => 'Flores Quispe',
+                'name' => 'Patricia Flores Quispe',
+                'email' => 'patricia.flores@colegio.edu',
+                'especialidad' => 'Arte y Música',
+                'bio' => 'Artista plástica y musicóloga. Especialista en artes visuales, danza y música folklórica.',
+            ],
+            [
+                'dni' => '01234567',
+                'nombres' => 'Fernando',
+                'apellidos' => 'Rojas Castro',
+                'name' => 'Fernando Rojas Castro',
+                'email' => 'fernando.rojas@colegio.edu',
+                'especialidad' => 'Computación e Informática',
+                'bio' => 'Ingeniero de sistemas con certificaciones en programación. Especialista en desarrollo web y bases de datos.',
+            ],
+            [
+                'dni' => '11234567',
+                'nombres' => 'Laura',
+                'apellidos' => 'Sánchez Vargas',
+                'name' => 'Laura Sánchez Vargas',
+                'email' => 'laura.sanchez@colegio.edu',
+                'especialidad' => 'Educación Cívica',
+                'bio' => 'Abogada especializada en derecho constitucional y educación ciudadana. Promotora de valores democráticos.',
+            ],
+            [
+                'dni' => '22345678',
+                'nombres' => 'Miguel Ángel',
+                'apellidos' => 'Castro León',
+                'name' => 'Miguel Ángel Castro León',
+                'email' => 'miguel.castro@colegio.edu',
+                'especialidad' => 'Psicología y Tutoría',
+                'bio' => 'Psicólogo educativo con maestría en orientación vocacional. Especialista en desarrollo adolescente.',
+            ],
+            [
+                'dni' => '33456789',
+                'nombres' => 'Gabriela',
+                'apellidos' => 'Morales Huamán',
+                'name' => 'Gabriela Morales Huamán',
+                'email' => 'gabriela.morales@colegio.edu',
+                'especialidad' => 'Religión',
+                'bio' => 'Licenciada en Ciencias Religiosas y Teología. Especialista en formación en valores y ética cristiana.',
             ],
         ];
 
+        // Obtener el rol de docente
+        $roleDocente = Role::where('nombre', 'Docente')->first();
+
         foreach ($docentes as $docenteData) {
+            // Crear usuario
             $user = User::create([
-                'dni' => $docenteData['user']['dni'],
-                'nombres' => $docenteData['user']['nombres'],
-                'apellidos' => $docenteData['user']['apellidos'],
-                'email' => $docenteData['user']['email'],
+                'dni' => $docenteData['dni'],
+                'nombres' => $docenteData['nombres'],
+                'apellidos' => $docenteData['apellidos'],
+                'name' => $docenteData['name'],
+                'email' => $docenteData['email'],
                 'password' => Hash::make('password123'),
-                'rol_id' => $docenteRole->id,
-                'telefono' => '999' . substr($docenteData['user']['dni'], -6),
-                'creado_en' => now(),
+                'rol_id' => $roleDocente->id,  // Usar rol_id en lugar de role_id
             ]);
 
+            // Crear docente
             Docente::create([
                 'usuario_id' => $user->id,
-                'especialidad' => $docenteData['docente']['especialidad'],
-                'grado_academico' => $docenteData['docente']['grado_academico'],
-                'telefono' => '555' . substr($docenteData['user']['dni'], -6),
-                'direccion' => 'Dirección del docente ' . $docenteData['user']['nombres'],
-                'fecha_ingreso' => $docenteData['docente']['fecha_ingreso'],
-                'estado' => 'Activo',
+                'especialidad' => $docenteData['especialidad'],
+                'bio' => $docenteData['bio'],
             ]);
         }
-
-        $this->command->info('Docentes creados exitosamente.');
-        $this->command->info('Contraseña para todos: password123');
     }
 }

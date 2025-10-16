@@ -63,6 +63,14 @@
                         {{ __('Recursos Educativos') }}
                     </x-nav-link>
                     @endif
+
+                    <x-nav-link href="{{ route('cursos.index') }}" :active="request()->routeIs('cursos.*')">
+                        {{ __('Cursos') }}
+                    </x-nav-link>
+
+                    <x-nav-link href="{{ route('notas.index') }}" :active="request()->routeIs('notas.*')">
+                        {{ __('Notas') }}
+                    </x-nav-link>
                 </div>
             </div>
 
