@@ -10,25 +10,15 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        //Los Roles ya se están creando en las migraciones
+        $this->call([
+            RoleSeeder::class,      // 1. Crear roles primero
+            DocenteSeeder::class,   // 2. Crear docentes (con usuarios)
+            CursosSeeder::class,     // 3. Crear cursos asignados a docentes
+            EstudiantesMasivosSeeder::class,    // 4. 200 Estudiantes con notas
+            RecursosEducativosSeeder::class,    // 5. Recursos educativos (52)
         ]);
     }
-
-    //     public function run(): void
-    // {
-    //     $this->call([
-    //         RoleSeeder::class,      // 1. Crear roles primero
-    //         DocenteSeeder::class,   // 2. Crear docentes (con usuarios)
-    //         CursoSeeder::class,     // 3. Crear cursos asignados a docentes
-    //     ]);
-    // }
 }

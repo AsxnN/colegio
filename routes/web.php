@@ -8,6 +8,8 @@ use App\Http\Controllers\EstudiantesController;
 use App\Http\Controllers\SeccionesController;
 use App\Http\Controllers\CursosController;
 use App\Http\Controllers\NotasController;
+use App\Http\Controllers\AsistenciasController;
+use App\Http\Controllers\RecursosEducativosController;
 
 
 Route::get('/', function () {
@@ -50,4 +52,21 @@ Route::middleware([
     Route::resource('notas', NotasController::class);
     Route::get('/notas/estudiante/{estudiante}', [NotasController::class, 'porEstudiante'])->name('notas.por-estudiante');
     Route::get('/notas/curso/{curso}', [NotasController::class, 'porCurso'])->name('notas.por-curso');
+
+    // Rutas para el módulo de asistencias
+    Route::get('/asistencias', [AsistenciasController::class, 'index'])->name('asistencias.index');
+    Route::get('/asistencias/registrar', [AsistenciasController::class, 'registrar'])->name('asistencias.registrar');
+    Route::post('/asistencias/guardar-masivo', [AsistenciasController::class, 'guardarMasivo'])->name('asistencias.guardar-masivo');
+    Route::get('/asistencias/create', [AsistenciasController::class, 'create'])->name('asistencias.create');
+    Route::post('/asistencias', [AsistenciasController::class, 'store'])->name('asistencias.store');
+    Route::get('/asistencias/{asistencia}/edit', [AsistenciasController::class, 'edit'])->name('asistencias.edit');
+    Route::put('/asistencias/{asistencia}', [AsistenciasController::class, 'update'])->name('asistencias.update');
+    Route::delete('/asistencias/{asistencia}', [AsistenciasController::class, 'destroy'])->name('asistencias.destroy');
+    Route::get('/asistencias/estudiante/{estudiante}', [AsistenciasController::class, 'porEstudiante'])->name('asistencias.por-estudiante');
+    Route::get('/asistencias/curso/{curso}', [AsistenciasController::class, 'porCurso'])->name('asistencias.por-curso');
+    Route::get('/asistencias/reporte-mensual', [AsistenciasController::class, 'reporteMensual'])->name('asistencias.reporte-mensual');
+
+    // Rutas para el módulo de recursos educativos
+    Route::resource('recursos', RecursosEducativosController::class)->names('recursos');
+    Route::get('/recursos/curso/{curso}', [RecursosEducativosController::class, 'porCurso'])->name('recursos.por-curso');
 });
