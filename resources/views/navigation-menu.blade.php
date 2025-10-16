@@ -71,6 +71,12 @@
                     <x-nav-link href="{{ route('notas.index') }}" :active="request()->routeIs('notas.*')">
                         {{ __('Notas') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('asistencias.index') }}" :active="request()->routeIs('asistencias.*')">
+                        {{ __('Asistencias') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('recursos.index') }}" :active="request()->routeIs('recursos.*')">
+                        {{ __('Recursos') }}
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -28,6 +28,11 @@ class Curso extends Model
     {
         return $this->hasMany(Nota::class);
     }
+    
+    public function recursos()
+    {
+        return $this->hasMany(RecursoEducativo::class);
+    }
 
     // Accessor
     public function getNombreCompletoAttribute()
