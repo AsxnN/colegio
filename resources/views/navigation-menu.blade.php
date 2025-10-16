@@ -50,6 +50,9 @@
                     <x-nav-link href="{{ route('recursos.index') }}" :active="request()->routeIs('recursos.*')">
                         {{ __('Recursos') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('predicciones.index') }}" :active="request()->routeIs('predicciones.*')">
+                        {{ __('Predicciones') }}
+                    </x-nav-link>
                 </div>
             </div>
 
